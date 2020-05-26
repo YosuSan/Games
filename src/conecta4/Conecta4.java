@@ -83,7 +83,7 @@ public class Conecta4 extends JFrame implements Runnable {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						int column = Integer.parseInt(label.getName().split(":")[1]);
-						changeColor(column);
+						addChip(column);
 					}
 				});
 				labelField[i][j] = label;
@@ -100,7 +100,7 @@ public class Conecta4 extends JFrame implements Runnable {
 				field[i][j] = 0;
 	}
 
-	private void changeColor(int column) {
+	private void addChip(int column) {
 		boolean changed = false;
 		for (int i = field.length - 1; i >= 0 && !changed; i--) {
 			if (field[i][column] == 0) {
@@ -116,7 +116,7 @@ public class Conecta4 extends JFrame implements Runnable {
 
 	@Override
 	public void run() {
-		fallingColor(fRow, fColumn);
+		fallingChip(fRow, fColumn);
 		if (checkPlayer()) {
 			int option = JOptionPane.showConfirmDialog(null,
 					"Congratulations player " + player + " you win\nDo you want to restart?", "WINNER",
@@ -153,7 +153,7 @@ public class Conecta4 extends JFrame implements Runnable {
 		return false;
 	}
 
-	private void fallingColor(int row, int column) {
+	private void fallingChip(int row, int column) {
 		for (int i = 0; i < row; i++) {
 
 			if (player == 1)
