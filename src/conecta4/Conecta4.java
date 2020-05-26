@@ -2,25 +2,30 @@ package conecta4;
 
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 @SuppressWarnings({ "serial", "unused" })
 public class Conecta4 extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private int field[][];
-	private JPanel panels[][];
+	private JLabel labelField[][];
 	private int player;
 	private int fRow = 0;
 	private int fColumn = 0;
+	HashMap<String, ImageIcon> dots;
 
 	/**
 	 * Launch the application.
@@ -43,6 +48,11 @@ public class Conecta4 extends JFrame implements Runnable {
 	 */
 	public Conecta4() {
 		initField();
+		dots = new HashMap<String, ImageIcon>();
+		dots.put("white", new ImageIcon("images\\white.png"));
+		dots.put("blue", new ImageIcon("images\\blue.png"));
+		dots.put("red", new ImageIcon("images\\red.png"));
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 614, 580);
@@ -52,6 +62,7 @@ public class Conecta4 extends JFrame implements Runnable {
 		contentPane.setLayout(new GridLayout(7, 0, 0, 0));
 
 		startGame();
+		
 
 	}
 
@@ -60,22 +71,23 @@ public class Conecta4 extends JFrame implements Runnable {
 		player = 1;
 		setTitle("Turn of player => " + player
 				+ "                                                                                          By Yosu");
-		panels = new JPanel[field.length][field[0].length];
+		labelField = new JLabel[field.length][field[0].length];
 		for (int i = 0; i < field.length; i++) {
 			for (int j = 0; j < field[i].length; j++) {
-				JPanel panel = new JPanel();
-				panel.setBackground(Color.WHITE);
-				panel.setName(i + ":" + j);
-				panel.setBorder(new LineBorder(Color.DARK_GRAY));
-				panel.addMouseListener(new MouseAdapter() {
+				JLabel label = new JLabel();
+				label.setIcon(dots.get("white"));
+				label.setHorizontalAlignment(JLabel.CENTER);
+				label.setName(i + ":" + j);
+				label.setBorder(new LineBorder(Color.GRAY));
+				label.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int column = Integer.parseInt(panel.getName().split(":")[1]);
+						int column = Integer.parseInt(label.getName().split(":")[1]);
 						changeColor(column);
 					}
 				});
-				panels[i][j] = panel;
-				contentPane.add(panel);
+				labelField[i][j] = label;
+				contentPane.add(label);
 			}
 		}
 		contentPane.revalidate();
@@ -145,18 +157,18 @@ public class Conecta4 extends JFrame implements Runnable {
 		for (int i = 0; i < row; i++) {
 
 			if (player == 1)
-				panels[i][column].setBackground(Color.BLUE);
+				labelField[i][column].setIcon(dots.get("blue"));
 			else
-				panels[i][column].setBackground(Color.RED);
+				labelField[i][column].setIcon(dots.get("red"));
 
-			sleep(200);
-			panels[i][column].setBackground(Color.WHITE);
+			sleep(100);
+			labelField[i][column].setIcon(dots.get("white"));
 
 		}
 		if (player == 1)
-			panels[row][column].setBackground(Color.BLUE);
+			labelField[row][column].setIcon(dots.get("blue"));
 		else
-			panels[row][column].setBackground(Color.RED);
+			labelField[row][column].setIcon(dots.get("red"));
 	}
 
 	private boolean checkPlayer() {
