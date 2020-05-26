@@ -186,7 +186,7 @@ public class Conecta4 extends JFrame implements Runnable {
 						if (field[i + 1][j + 1] == player && field[i + 2][j + 2] == player
 								&& field[i + 3][j + 3] == player)
 							return true;
-					if (i > 3 && j < field[i].length - 3)
+					if (i > 2 && j < field[i].length - 3)
 						if (field[i - 1][j + 1] == player && field[i - 2][j + 2] == player
 								&& field[i - 3][j + 3] == player)
 							return true;
