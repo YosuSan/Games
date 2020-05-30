@@ -12,8 +12,13 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
+import org.apache.commons.io.FileUtils;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 
 @SuppressWarnings({ "serial", "unused" })
@@ -25,6 +30,7 @@ public class Conecta4 extends JFrame implements Runnable {
 	private int player;
 	private int fRow = 0;
 	private int fColumn = 0;
+	private boolean moving = false;
 	HashMap<String, ImageIcon> dots;
 
 	/**
@@ -48,11 +54,12 @@ public class Conecta4 extends JFrame implements Runnable {
 	 */
 	public Conecta4() {
 		initField();
+		checkImages();
 		dots = new HashMap<String, ImageIcon>();
 		dots.put("white", new ImageIcon("images\\white.png"));
 		dots.put("blue", new ImageIcon("images\\blue.png"));
 		dots.put("red", new ImageIcon("images\\red.png"));
-		
+
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 614, 580);
@@ -62,7 +69,6 @@ public class Conecta4 extends JFrame implements Runnable {
 		contentPane.setLayout(new GridLayout(7, 0, 0, 0));
 
 		startGame();
-		
 
 	}
 
@@ -82,8 +88,10 @@ public class Conecta4 extends JFrame implements Runnable {
 				label.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int column = Integer.parseInt(label.getName().split(":")[1]);
-						addChip(column);
+						if (!moving) {
+							int column = Integer.parseInt(label.getName().split(":")[1]);
+							addChip(column);
+						}
 					}
 				});
 				labelField[i][j] = label;
@@ -116,6 +124,7 @@ public class Conecta4 extends JFrame implements Runnable {
 
 	@Override
 	public void run() {
+		moving = true;
 		fallingChip(fRow, fColumn);
 		if (checkPlayer()) {
 			int option = JOptionPane.showConfirmDialog(null,
@@ -141,6 +150,7 @@ public class Conecta4 extends JFrame implements Runnable {
 				}
 			}
 		}
+		moving = false;
 	}
 
 	private boolean moreMoves() {
@@ -194,6 +204,25 @@ public class Conecta4 extends JFrame implements Runnable {
 			}
 		}
 		return false;
+	}
+
+	private void checkImages() {
+		File fWhite = new File("images/white.png");
+		File fBlue = new File("images/blue.png");
+		File fRed = new File("images/red.png");
+
+		String white = "https://img.icons8.com/emoji/72/000000/white-circle-emoji.png";
+		String blue = "https://img.icons8.com/emoji/72/000000/blue-circle-emoji.png";
+		String red = "https://img.icons8.com/emoji/72/000000/red-circle-emoji.png";
+		if (!fWhite.exists() || !fBlue.exists() || !fRed.exists()) {
+			try {
+				FileUtils.copyURLToFile(new URL(white), fWhite);
+				FileUtils.copyURLToFile(new URL(blue), fBlue);
+				FileUtils.copyURLToFile(new URL(red), fRed);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void sleep(int time) {
