@@ -258,6 +258,15 @@ public class TicTacToe extends JFrame {
 					return true;
 				}
 			}
+			for (int i = 0; i < field.length; i++) {
+				for (int j = 0; j < field[i].length; j++) {
+					if (field[i][j] == 0) {
+						field[i][j] = 2;
+						labels[i][j].setIcon(map.get("circle"));
+						return true;
+					}
+				}
+			}
 		}
 	}
 
