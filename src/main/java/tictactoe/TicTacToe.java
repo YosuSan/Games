@@ -58,7 +58,7 @@ public class TicTacToe extends JFrame {
 		map.put("blood", new ImageIcon("images/blood.png"));
 		map.put("cross", new ImageIcon("images/cross.png"));
 		map.put("circle", new ImageIcon("images/circle.png"));
-		setTitle("TIC-TAC-TOE");
+		setTitle("TIC-TAC-TOE                                                     By Yosu");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 417);
@@ -216,11 +216,13 @@ public class TicTacToe extends JFrame {
 	}
 
 	private void IAMove() {
-
-		if (!IAMoveH())
-			if (!IAMoveV())
-				if (!IAMoveD())
-					IAMoveAny();
+		if (!IAMoveH("win"))
+			if (!IAMoveV("win"))
+				if (!IAMoveD("win"))
+					if (!IAMoveH(""))
+						if (!IAMoveV(""))
+							if (!IAMoveD(""))
+								IAMoveAny();
 	}
 
 	private boolean IAMoveAny() {
@@ -270,13 +272,16 @@ public class TicTacToe extends JFrame {
 		}
 	}
 
-	private boolean IAMoveD() {
+	private boolean IAMoveD(String move) {
+		int check = 1;
+		if (move.equals("win"))
+			check = 2;
 		int status = 0;
-		if (field[0][0] == 1)
+		if (field[0][0] == check)
 			status++;
-		if (field[1][1] == 1)
+		if (field[1][1] == check)
 			status++;
-		if (field[2][2] == 1)
+		if (field[2][2] == check)
 			status++;
 		if (status == 2) {
 			if (field[0][0] == 0) {
@@ -296,11 +301,11 @@ public class TicTacToe extends JFrame {
 			}
 		}
 		status = 0;
-		if (field[0][2] == 1)
+		if (field[0][2] == check)
 			status++;
-		if (field[1][1] == 1)
+		if (field[1][1] == check)
 			status++;
-		if (field[2][0] == 1)
+		if (field[2][0] == check)
 			status++;
 		if (status == 2) {
 			if (field[0][2] == 0) {
@@ -322,12 +327,15 @@ public class TicTacToe extends JFrame {
 		return false;
 	}
 
-	private boolean IAMoveH() {
+	private boolean IAMoveH(String move) {
+		int check = 1;
+		if (move.equals("win"))
+			check = 2;
 
 		for (int i = 0; i < field.length; i++) {
 			int status = 0;
 			for (int j = 0; j < field[i].length; j++) {
-				if (field[i][j] == 1)
+				if (field[i][j] == check)
 					status++;
 				if (status == 2) {
 					for (int j2 = 0; j2 < field.length; j2++) {
@@ -343,12 +351,15 @@ public class TicTacToe extends JFrame {
 		return false;
 	}
 
-	private boolean IAMoveV() {
+	private boolean IAMoveV(String move) {
+		int check = 1;
+		if (move.equals("win"))
+			check = 2;
 
 		for (int i = 0; i < field.length; i++) {
 			int status = 0;
 			for (int j = 0; j < field[i].length; j++) {
-				if (field[j][i] == 1)
+				if (field[j][i] == check)
 					status++;
 
 				if (status == 2) {
